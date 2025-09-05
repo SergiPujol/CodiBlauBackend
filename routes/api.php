@@ -18,9 +18,13 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('sessions')->group(function () {
     Route::post('/', [SessionController::class, 'store']); // crear sessió
+    Route::get('/list', [SessionController::class, 'index']);
     Route::get('/{id}', [SessionController::class, 'show']);
+    Route::put('/{id}', [SessionController::class, 'update']);
     Route::post('/{id}/actions', [ActionController::class, 'store']); // afegir acció
+    Route::get('/{id}/actions', [ActionController::class, 'list']);
     Route::post('/{id}/cycles', [CycleController::class, 'store']);
+    Route::post('/{id}/close', [SessionController::class, 'close']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

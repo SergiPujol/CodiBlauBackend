@@ -43,4 +43,14 @@ ActionController extends Controller
             'action' => $action,
         ], 201);
     }
+
+    public function list($sessionId)
+    {
+        $actions = Action::where('session_id', $sessionId)
+            ->orderBy('executed_at', 'asc')
+            ->get();
+
+        return response()->json($actions);
+    }
+
 }
