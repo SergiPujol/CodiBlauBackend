@@ -34,6 +34,7 @@ class ActionRegistered implements ShouldBroadcast
             'executed_at' => $this->action->executed_at,
             'session_id' => $this->action->session_id,
             'cycle_id' => $this->action->cycle_id,
+            'cycle_number' => $this->action->cycle->number,
         ];
     }
 

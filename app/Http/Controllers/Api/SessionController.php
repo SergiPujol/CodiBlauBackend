@@ -51,7 +51,7 @@ class SessionController extends Controller
 
     public function show($id)
     {
-        $session = Session::with('actions')->findOrFail($id);
+        $session = Session::with(['actions', 'cycles'])->findOrFail($id);
         return response()->json($session);
     }
 

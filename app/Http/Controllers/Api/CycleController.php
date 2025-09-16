@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Cycle;
 use Illuminate\Http\Request;
+use App\Events\CycleStarted;
 
 class CycleController extends Controller
 {
@@ -22,10 +23,13 @@ class CycleController extends Controller
             'number' => $lastNumber + 1
         ]);
 
+        broadcast(new CycleStarted($cycle))->toOthers();
+
         return response()->json([
             'id' => $cycle->id,
             'number' => $cycle->number,
         ], 201);
     }
+
 
 }

@@ -10,6 +10,24 @@ use Illuminate\Http\Request;
 class
 ActionController extends Controller
 {
+    public function index($sessionId)
+    {
+        $actions = Action::with('cycle')
+        ->where('session_id', $sessionId)
+            ->orderBy('executed_at')
+            ->get()
+            ->map(function ($action) {
+                return [
+                    'id' => $action->id,
+                    'type' => $action->type,
+                    'executed_at' => $action->executed_at,
+                    'session_id' => $action->session_id,
+                    'cycle_number' => $action->cycle->number ?? null,
+                ];
+            });
+
+        return response()->json($actions);
+    }
     public function store(Request $request, $sessionId)
     {
         // Validació de dades
