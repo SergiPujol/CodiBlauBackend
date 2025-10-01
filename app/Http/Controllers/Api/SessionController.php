@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\SessionUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Cycle;
 use App\Models\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SessionController extends Controller
 {
@@ -62,6 +64,8 @@ class SessionController extends Controller
         if ($request->has('end_time')) {
             $session->end_time = now();
             $session->save();
+
+            broadcast(new SessionUpdated($session))->toOthers();
         }
 
         return response()->json([
@@ -79,4 +83,29 @@ class SessionController extends Controller
 
         return response()->json($session);
     }
+
+    public function destroy($id)
+    {
+        $session = Session::with(['cycles', 'actions'])->findOrFail($id);
+
+        // Esborrar dins d'una transacció per seguretat
+        DB::transaction(function () use ($session) {
+            // Esborrem primer les accions (si en tens accions atribuïdes a session)
+            $session->actions()->delete();
+
+            // Si els cicles poden tenir accions pròpies, esborrem aquestes també
+            foreach ($session->cycles as $cycle) {
+                $cycle->actions()->delete();
+            }
+
+            // Esborrem els cicles
+            $session->cycles()->delete();
+
+            // Finalment, la sessió
+            $session->delete();
+        });
+
+        return response()->json(['message' => 'Sessió eliminada correctament']);
+    }
+
 }

@@ -25,6 +25,7 @@ Route::prefix('sessions')->group(function () {
     Route::get('/{id}/actions', [ActionController::class, 'list']);
     Route::post('/{id}/cycles', [CycleController::class, 'store']);
     Route::post('/{id}/close', [SessionController::class, 'close']);
+    Route::delete('/{id}', [SessionController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
