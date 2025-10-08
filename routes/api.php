@@ -27,7 +27,3 @@ Route::prefix('sessions')->group(function () {
     Route::post('/{id}/close', [SessionController::class, 'close']);
     Route::delete('/{id}', [SessionController::class, 'destroy']);
 });
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});

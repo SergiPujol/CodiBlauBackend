@@ -14,7 +14,6 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $session = Session::create([
-            'rhythm_type' => $request->rhythm_type,
             'start_time' => $request->start_time,
         ]);
 
@@ -22,7 +21,6 @@ class SessionController extends Controller
 
         $cycle = Cycle::create([
             'session_id' => $session->id,
-            'rhythm_type' => $session->rhythm_type,
             'started_at' => $session->start_time,
             'number' => $lastNumber + 1
         ]);

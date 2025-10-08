@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Session extends Model
 {
     use HasFactory;
-    protected $fillable = ['rhythm_type', 'start_time', 'end_time'];
+    protected $fillable = ['start_time', 'end_time'];
 
     public function actions()
     {

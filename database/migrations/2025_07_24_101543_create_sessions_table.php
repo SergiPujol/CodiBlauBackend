@@ -15,7 +15,6 @@ class CreateSessionsTable extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
-            $table->string('rhythm_type');
             $table->timestamp('start_time');
             $table->timestamp('end_time')->nullable();
             $table->timestamps(); // created_at i updated_at
