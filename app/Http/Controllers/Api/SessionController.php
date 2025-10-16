@@ -46,6 +46,14 @@ class SessionController extends Controller
             $query->whereNotNull('end_time');
         }
 
+        if ($request->has('start_date')) {
+            $query->where('start_time', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date')) {
+            $query->where('start_time', '<=', $request->end_date);
+        }
+
         $sessions = $query->orderBy('start_time', 'desc')->get();
 
         return response()->json($sessions);
@@ -107,5 +115,4 @@ class SessionController extends Controller
 
         return response()->json(['message' => 'Sessió eliminada correctament']);
     }
-
 }

@@ -31,5 +31,10 @@ class CycleController extends Controller
         ], 201);
     }
 
+    public function index($sessionId)
+    {
+        $cycles = Cycle::where('session_id', $sessionId)->get();
+        return response()->json($cycles);
+    }
 
 }
