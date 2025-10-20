@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ActionController;
 use App\Http\Controllers\Api\CycleController;
 use App\Http\Controllers\Api\SessionController;
+use App\Http\Controllers\Api\SSEController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,8 +28,6 @@ Route::prefix('sessions')->group(function () {
     Route::post('/{id}/close', [SessionController::class, 'close']);
     Route::delete('/{id}', [SessionController::class, 'destroy']);
     Route::get('/{session}/cycles', [CycleController::class, 'index']);
+    Route::get('/{id}/stream', [SSEController::class, 'stream']);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
